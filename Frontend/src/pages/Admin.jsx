@@ -22,7 +22,7 @@ const Admin = () => {
   const fetchProducts = async () => {
 
     const response = await fetch(
-      "http://localhost:4000/api/products"
+      "https://velora-backend-07s4.onrender.com/api/products"
     )
 
     const json = await response.json()
@@ -86,8 +86,8 @@ const Admin = () => {
     }
 
     const url = editingId
-      ? `http://localhost:4000/api/products/${editingId}`
-      : "http://localhost:4000/api/products"
+      ? `https://velora-backend-07s4.onrender.com/api/products/${editingId}`
+      : "https://velora-backend-07s4.onrender.com/api/products"
 
     const method = editingId
       ? "PATCH"
@@ -142,7 +142,7 @@ const Admin = () => {
     )
 
     const response = await fetch(
-      `http://localhost:4000/api/products/${id}`,
+      `https://velora-backend-07s4.onrender.com/api/products/${id}`,
       {
         method: "DELETE",
 

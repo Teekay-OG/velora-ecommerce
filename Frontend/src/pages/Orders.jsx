@@ -12,7 +12,7 @@ const Orders = () => {
 
       const response =
         await fetch(
-          "http://localhost:4000/api/orders"
+          "https://velora-backend-07s4.onrender.com/api/orders"
         )
 
       const json =

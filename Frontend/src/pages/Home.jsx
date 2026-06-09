@@ -17,7 +17,7 @@ const Home = () => {
       try {
 
         const response = await fetch(
-          'http://localhost:4000/api/products'
+          'https://velora-backend-07s4.onrender.com/api/products'
         )
 
         const json = await response.json()

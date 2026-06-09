@@ -18,7 +18,7 @@ const ProductDetails = () => {
     const fetchProduct = async () => {
 
       const response = await fetch(
-        `http://localhost:4000/api/products/${id}`
+        `https://velora-backend-07s4.onrender.com/api/products/${id}`
       )
 
       const json = await response.json()
