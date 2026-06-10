@@ -1,6 +1,7 @@
 import { useState } from 'react'
 import { useNavigate } from 'react-router-dom'
 import { toast } from 'react-toastify'
+import { Link } from 'react-router-dom'
 
 const Signup = () => {
 
@@ -78,6 +79,13 @@ const Signup = () => {
       </p>
 
       <button>Signup</button>
+
+      <p className="auth-switch">
+           Already have an account?{' '}
+         <Link to="/login">
+           Login
+         </Link>
+      </p>
 
       {error && <div className="error">{error}</div>}
 

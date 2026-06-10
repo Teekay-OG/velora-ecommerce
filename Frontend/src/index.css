@@ -2610,3 +2610,18 @@ select:focus {
   }
 
 }
+
+.auth-switch {
+  margin-top: 15px;
+  text-align: center;
+}
+
+.auth-switch a {
+  color: #1aac83;
+  font-weight: 600;
+  text-decoration: none;
+}
+
+.auth-switch a:hover {
+  text-decoration: underline;
+}
