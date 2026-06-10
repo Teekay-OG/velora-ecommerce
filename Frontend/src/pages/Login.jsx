@@ -1,5 +1,4 @@
 import { useState } from 'react'
-import { useNavigate } from 'react-router-dom'
 import { toast } from 'react-toastify'
 
 const Login = () => {
@@ -8,42 +7,72 @@ const Login = () => {
   const [password, setPassword] = useState('')
   const [error, setError] = useState(null)
 
-  const navigate = useNavigate()
-
   const handleSubmit = async (e) => {
     e.preventDefault()
 
-    const response = await fetch('https://velora-backend-07s4.onrender.com/api/user/login', {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json'
-      },
-      body: JSON.stringify({ email, password })
-    })
+    try {
 
-    const json = await response.json()
+      const response = await fetch(
+        'https://velora-backend-07s4.onrender.com/api/user/login',
+        {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json'
+          },
+          body: JSON.stringify({
+            email,
+            password
+          })
+        }
+      )
 
-    if (!response.ok) {
-      setError(json.error)
-      return
+      const json = await response.json()
+
+      if (!response.ok) {
+        setError(json.error)
+        return
+      }
+
+      // Save user
+      localStorage.setItem(
+        'user',
+        JSON.stringify(json)
+      )
+
+      setError(null)
+
+      toast.success(
+        'Login successful!'
+      )
+
+      // Force app to reload and re-read localStorage
+      window.location.href = '/home'
+
+    } catch (err) {
+
+      setError(
+        'Something went wrong. Please try again.'
+      )
+
     }
-
-    // save user to localStorage
-    localStorage.setItem('user', JSON.stringify(json))
-
-    setError(null)
-
-    toast.success('Login successful!')
-
-    navigate('/home')
   }
 
   return (
-    <form className="auth-form" onSubmit={handleSubmit} autoComplete="off">
+
+    <form
+      className="auth-form"
+      onSubmit={handleSubmit}
+      autoComplete="off"
+    >
 
       <div className="auth-header">
-       <h1>VELORA</h1>
-       <p>Premium Shopping Experience</p>
+
+        <h1>VELORA</h1>
+
+        <p>
+          Premium Shopping Experience
+        </p>
+
       </div>
 
       <h3>Login</h3>
@@ -52,21 +81,34 @@ const Login = () => {
         type="email"
         placeholder="Email"
         value={email}
-        onChange={(e) => setEmail(e.target.value)}
+        onChange={(e) =>
+          setEmail(e.target.value)
+        }
       />
 
       <input
         type="password"
         placeholder="Password"
         value={password}
-        onChange={(e) => setPassword(e.target.value)}
+        onChange={(e) =>
+          setPassword(e.target.value)
+        }
       />
 
-      <button>Login</button>
+      <button>
+        Login
+      </button>
 
-      {error && <div className="error">{error}</div>}
+      {error && (
+
+        <div className="error">
+          {error}
+        </div>
+
+      )}
 
     </form>
+
   )
 }
 
