@@ -38,62 +38,110 @@ function App() {
 
             <Route
               path="/signup"
-              element={<Signup />}
+              element={
+                !user
+                  ? <Signup />
+                  : <Navigate to="/home" />
+              }
             />
 
             <Route
               path="/login"
-              element={<Login />}
+              element={
+                !user
+                  ? <Login />
+                  : <Navigate to="/home" />
+              }
             />
 
             <Route
               path="/home"
-              element={<Home />}
+              element={
+                user
+                  ? <Home />
+                  : <Navigate to="/signup" />
+              }
             />
 
             <Route
               path="/cart"
-              element={<Cart />}
+              element={
+                user
+                  ? <Cart />
+                  : <Navigate to="/signup" />
+              }
             />
 
             <Route
               path="/product/:id"
-              element={<ProductDetails />}
+              element={
+                user
+                  ? <ProductDetails />
+                  : <Navigate to="/signup" />
+              }
             />
 
             <Route
               path="/checkout"
-              element={<Checkout />}
+              element={
+                user
+                  ? <Checkout />
+                  : <Navigate to="/signup" />
+              }
             />
 
             <Route
               path="/success"
-              element={<Success />}
+              element={
+                user
+                  ? <Success />
+                  : <Navigate to="/signup" />
+              }
             />
 
             <Route
               path="/profile"
-              element={<Profile />}
+              element={
+                user
+                  ? <Profile />
+                  : <Navigate to="/signup" />
+              }
             />
 
             <Route
               path="/wishlist"
-              element={<Wishlist />}
+              element={
+                user
+                  ? <Wishlist />
+                  : <Navigate to="/signup" />
+              }
             />
 
             <Route
               path="/orders"
-              element={<Orders />}
+              element={
+                user
+                  ? <Orders />
+                  : <Navigate to="/signup" />
+              }
             />
 
             <Route
               path="/admin"
-              element={<Admin />}
+              element={
+                user?.role === 'admin'
+                  ? <Admin />
+                  : <Navigate to="/home" />
+              }
             />
 
             <Route
               path="/"
-              element={<Navigate to="/home" />}
+              element={
+                user
+                  ? <Navigate to="/home" />
+                  : <Navigate to="/signup" />
+              }
             />
 
           </Routes>
