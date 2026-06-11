@@ -183,6 +183,16 @@ const Admin = () => {
   return (
 
     <div className="admin-page">
+     
+     <div className="orders-stats">
+
+      <div className="stat-card">
+        <h3>{products.length}</h3>
+        <p>Products</p>
+      </div>
+
+      </div>
+
 
       <h1>Admin Dashboard</h1>
 

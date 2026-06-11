@@ -111,6 +111,16 @@ const Cart = () => {
               Total: ${total}
             </h2>
 
+            <div className="checkout-info">
+
+              <p>✓ Secure Checkout</p>
+
+              <p>🚚 Free Delivery</p>
+
+              <p>↩ 30 Day Returns</p>
+
+            </div>
+
             <button className="checkout-btn" 
             onClick={() => navigate('/checkout')}>
               Checkout

@@ -1,4 +1,5 @@
 import { useState } from 'react'
+import { Link } from 'react-router-dom'
 import { toast } from 'react-toastify'
 
 const Login = () => {
@@ -8,6 +9,7 @@ const Login = () => {
   const [error, setError] = useState(null)
 
   const handleSubmit = async (e) => {
+
     e.preventDefault()
 
     try {
@@ -16,9 +18,11 @@ const Login = () => {
         'https://velora-backend-07s4.onrender.com/api/user/login',
         {
           method: 'POST',
+
           headers: {
             'Content-Type': 'application/json'
           },
+
           body: JSON.stringify({
             email,
             password
@@ -29,11 +33,12 @@ const Login = () => {
       const json = await response.json()
 
       if (!response.ok) {
+
         setError(json.error)
+
         return
       }
 
-      // Save user
       localStorage.setItem(
         'user',
         JSON.stringify(json)
@@ -45,7 +50,6 @@ const Login = () => {
         'Login successful!'
       )
 
-      // Force app to reload and re-read localStorage
       window.location.href = '/home'
 
     } catch (err) {
@@ -55,6 +59,7 @@ const Login = () => {
       )
 
     }
+
   }
 
   return (
@@ -75,11 +80,13 @@ const Login = () => {
 
       </div>
 
-      <h3>Login</h3>
+      <h3>
+        Welcome Back
+      </h3>
 
       <input
         type="email"
-        placeholder="Email"
+        placeholder="Email Address"
         value={email}
         onChange={(e) =>
           setEmail(e.target.value)
@@ -95,14 +102,30 @@ const Login = () => {
         }
       />
 
+      <div className="forgot-password">
+        Forgot Password?
+      </div>
+
       <button>
-        Login
+        Sign In
       </button>
+
+      <p className="auth-switch">
+
+        Don't have an account?{" "}
+
+        <Link to="/signup">
+          Sign Up
+        </Link>
+
+      </p>
 
       {error && (
 
         <div className="error">
+
           {error}
+
         </div>
 
       )}

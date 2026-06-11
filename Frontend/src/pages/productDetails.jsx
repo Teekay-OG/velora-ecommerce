@@ -88,6 +88,22 @@ const ProductDetails = () => {
             ${product.price}
           </h2>
 
+          <div className="details-meta">
+
+         <div className="meta-item">
+          ✓ In Stock
+         </div>
+
+         <div className="meta-item">
+          🚚 Free Delivery
+         </div>
+
+         <div className="meta-item">
+           ↩ 30 Day Returns
+         </div>
+
+         </div>
+
           <button onClick={handleAddToCart}>
             Add To Cart
           </button>

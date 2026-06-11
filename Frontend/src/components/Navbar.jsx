@@ -49,7 +49,7 @@ const Navbar = () => {
       'Logged out successfully'
     )
 
-    navigate('/login')
+    window.location.href = '/login'
   }
 
   return (
@@ -75,7 +75,7 @@ const Navbar = () => {
         <nav className="nav-links">
 
           <Link to="/home">
-            Dashboard
+            Shop
           </Link>
 
           <Link to="/orders">

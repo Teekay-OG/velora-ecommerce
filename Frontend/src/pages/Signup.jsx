@@ -78,12 +78,12 @@ const Signup = () => {
         Password must contain uppercase, lowercase, number, and special character.
       </p>
 
-      <button>Signup</button>
+       <button>Create Account</button>
 
       <p className="auth-switch">
            Already have an account?{' '}
          <Link to="/login">
-           Login
+           Sign in
          </Link>
       </p>
 

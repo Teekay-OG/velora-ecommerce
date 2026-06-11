@@ -8,6 +8,8 @@ const Profile = () => {
 
   const [name, setName] = useState("")
 
+  const [orderCount, setOrderCount] = useState(0)
+
   useEffect(() => {
 
     const storedUser = JSON.parse(
@@ -15,9 +17,46 @@ const Profile = () => {
     )
 
     if (storedUser) {
+
       setUser(storedUser)
+
       setName(storedUser.name)
+
     }
+
+    const fetchOrders = async () => {
+
+      try {
+
+        const response = await fetch(
+          "https://velora-backend-07s4.onrender.com/api/orders"
+        )
+
+        const json = await response.json()
+
+        if (response.ok && storedUser) {
+
+          const userOrders =
+            json.filter(
+              order =>
+                order.customer?.email ===
+                storedUser.email
+            )
+
+          setOrderCount(
+            userOrders.length
+          )
+
+        }
+
+      } catch (error) {
+
+        console.log(error)
+
+      }
+    }
+
+    fetchOrders()
 
   }, [])
 
@@ -74,18 +113,39 @@ const Profile = () => {
         <div className="profile-stats">
 
           <div className="stat-box">
-            <h2>0</h2>
-            <p>Orders</p>
+
+            <h2>
+              {orderCount}
+            </h2>
+
+            <p>
+              Orders
+            </p>
+
           </div>
 
           <div className="stat-box">
-            <h2>0</h2>
-            <p>Wishlist</p>
+
+            <h2>
+              0
+            </h2>
+
+            <p>
+              Wishlist
+            </p>
+
           </div>
 
           <div className="stat-box">
-            <h2>0</h2>
-            <p>Reviews</p>
+
+            <h2>
+              0
+            </h2>
+
+            <p>
+              Reviews
+            </p>
+
           </div>
 
         </div>
@@ -115,7 +175,6 @@ const Profile = () => {
       </div>
 
     </div>
-
   )
 }
 

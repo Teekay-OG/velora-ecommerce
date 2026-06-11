@@ -10,18 +10,30 @@ const Orders = () => {
     const fetchOrders =
       async () => {
 
-      const response =
-        await fetch(
-          "https://velora-backend-07s4.onrender.com/api/orders"
-        )
+        const response =
+          await fetch(
+            "https://velora-backend-07s4.onrender.com/api/orders"
+          )
 
-      const json =
-        await response.json()
+        const json =
+          await response.json()
 
-      if (response.ok) {
-        setOrders(json)
+        if (response.ok) {
+
+          const user = JSON.parse(
+            localStorage.getItem("user")
+          )
+
+          const userOrders =
+            json.filter(
+              order =>
+                order.customer?.email ===
+                user?.email
+            )
+
+          setOrders(userOrders)
+        }
       }
-    }
 
     fetchOrders()
 
@@ -31,11 +43,31 @@ const Orders = () => {
 
     <div className="orders-page">
 
-      <h1>My Orders</h1>
+      <div className="orders-stats">
+
+        <div className="stat-card">
+
+          <h3>
+            {orders.length}
+          </h3>
+
+          <p>
+            Total Orders
+          </p>
+
+        </div>
+
+      </div>
+
+      <h1>
+        My Orders
+      </h1>
 
       {orders.length === 0 ? (
 
-        <p>No orders yet.</p>
+        <p>
+          No orders yet.
+        </p>
 
       ) : (
 
@@ -47,21 +79,34 @@ const Orders = () => {
           >
 
             <h3>
-              Order #{order._id.slice(-6)}
+              Order #
+              {order._id.slice(-6)}
             </h3>
 
-            <p>
+            <p className="order-total">
+
               Total: $
               {order.total}
+
             </p>
 
             <p>
+
               {new Date(
                 order.createdAt
               ).toLocaleString()}
+
             </p>
 
-            <h4>Items:</h4>
+            <div className="order-status">
+
+              ✓ Processing
+
+            </div>
+
+            <h4>
+              Items:
+            </h4>
 
             {order.items.map(item => (
 
@@ -77,9 +122,13 @@ const Orders = () => {
                 />
 
                 <span>
+
                   {item.name}
+
                   {" × "}
+
                   {item.quantity}
+
                 </span>
 
               </div>
@@ -93,6 +142,7 @@ const Orders = () => {
       )}
 
     </div>
+
   )
 }
 
