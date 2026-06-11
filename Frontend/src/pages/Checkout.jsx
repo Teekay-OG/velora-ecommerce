@@ -9,81 +9,116 @@ const Checkout = () => {
 
   const navigate = useNavigate()
 
-  const [fullName, setFullName] = useState('')
-  const [email, setEmail] = useState('')
+  const user = JSON.parse(
+    localStorage.getItem('user')
+  )
+
+  const [fullName] = useState(
+    user?.name || ''
+  )
+
+  const [email] = useState(
+    user?.email || ''
+  )
+
   const [address, setAddress] = useState('')
   const [city, setCity] = useState('')
   const [country, setCountry] = useState('')
   const [zipCode, setZipCode] = useState('')
 
-  // subtotal
   const subtotal = cart.reduce(
     (acc, item) => acc + item.price * item.quantity,
     0
   )
 
-  // shipping
-  const shipping = subtotal > 200 ? 0 : 15
+  const shipping =
+    subtotal > 200 ? 0 : 15
 
-  // tax
   const tax = subtotal * 0.1
 
-  // total
-  const total = subtotal + shipping + tax
+  const total =
+    subtotal + shipping + tax
 
   const handlePlaceOrder = async () => {
 
-  if (
-    !fullName ||
-    !email ||
-    !address ||
-    !city ||
-    !country ||
-    !zipCode
-  ) {
-    toast.error('Please fill in all fields')
-    return
-  }
+    if (
+      !fullName ||
+      !email ||
+      !address ||
+      !city ||
+      !country ||
+      !zipCode
+    ) {
 
-  const newOrder = {
-
-    items: cart,
-
-    total,
-
-    customer: {
-      fullName,
-      email,
-      address,
-      city,
-      country,
-      zipCode
-    }
-  }
-
-  const response = await fetch(
-    "https://velora-backend-07s4.onrender.com/api/orders",
-    {
-      method: "POST",
-
-      headers: {
-        "Content-Type":
-          "application/json"
-      },
-
-      body: JSON.stringify(
-        newOrder
+      toast.error(
+        'Please fill in all fields'
       )
+
+      return
     }
-  )
 
-  if (response.ok) {
+    const newOrder = {
 
-    clearCart()
+      items: cart,
 
-    navigate("/success")
+      total,
+
+      customer: {
+        fullName,
+        email,
+        address,
+        city,
+        country,
+        zipCode
+      }
+
+    }
+
+    try {
+
+      const response = await fetch(
+        'https://velora-backend-07s4.onrender.com/api/orders',
+        {
+          method: 'POST',
+
+          headers: {
+            'Content-Type':
+              'application/json'
+          },
+
+          body: JSON.stringify(
+            newOrder
+          )
+        }
+      )
+
+      if (response.ok) {
+
+        clearCart()
+
+        toast.success(
+          'Order placed successfully!'
+        )
+
+        navigate('/success')
+
+      } else {
+
+        toast.error(
+          'Failed to place order'
+        )
+
+      }
+
+    } catch (error) {
+
+      toast.error(
+        'Something went wrong'
+      )
+
+    }
+
   }
-}
 
   return (
 
@@ -93,28 +128,22 @@ const Checkout = () => {
 
       <div className="checkout-container">
 
-        {/* LEFT SIDE */}
-
         <div className="checkout-form">
 
-          <h2>Shipping Information</h2>
+          <h2>
+            Shipping Information
+          </h2>
 
           <input
             type="text"
-            placeholder="Full Name"
             value={fullName}
-            onChange={(e) =>
-              setFullName(e.target.value)
-            }
+            readOnly
           />
 
           <input
             type="email"
-            placeholder="Email Address"
             value={email}
-            onChange={(e) =>
-              setEmail(e.target.value)
-            }
+            readOnly
           />
 
           <input
@@ -153,17 +182,19 @@ const Checkout = () => {
             }
           />
 
-          <button onClick={handlePlaceOrder}>
+          <button
+            onClick={handlePlaceOrder}
+          >
             Place Order
           </button>
 
         </div>
 
-        {/* RIGHT SIDE */}
-
         <div className="order-summary">
 
-          <h2>Order Summary</h2>
+          <h2>
+            Order Summary
+          </h2>
 
           {cart.map(item => (
 
@@ -173,12 +204,14 @@ const Checkout = () => {
             >
 
               <span>
-                {item.name} x {item.quantity}
+                {item.name} × {item.quantity}
               </span>
 
               <span>
                 $
-                {(item.price * item.quantity).toFixed(2)}
+                {(item.price *
+                  item.quantity
+                ).toFixed(2)}
               </span>
 
             </div>
@@ -189,7 +222,9 @@ const Checkout = () => {
 
           <div className="summary-row">
 
-            <span>Subtotal</span>
+            <span>
+              Subtotal
+            </span>
 
             <span>
               ${subtotal.toFixed(2)}
@@ -199,7 +234,9 @@ const Checkout = () => {
 
           <div className="summary-row">
 
-            <span>Shipping</span>
+            <span>
+              Shipping
+            </span>
 
             <span>
               ${shipping.toFixed(2)}
@@ -209,7 +246,9 @@ const Checkout = () => {
 
           <div className="summary-row">
 
-            <span>Tax</span>
+            <span>
+              Tax
+            </span>
 
             <span>
               ${tax.toFixed(2)}
@@ -219,7 +258,9 @@ const Checkout = () => {
 
           <div className="summary-total">
 
-            <span>Total</span>
+            <span>
+              Total
+            </span>
 
             <span>
               ${total.toFixed(2)}
